@@ -1,5 +1,6 @@
 import sys
 import os
+import ollama
 
 from prompt_toolkit.application import get_app 
 from prompt_toolkit.completion import ConditionalCompleter, WordCompleter
@@ -29,6 +30,8 @@ def func_commands(input: str) -> None:
         command_help()
     if input == "/clear":
         os.system('cls' if os.name == 'nt' else 'clear')
+    if input == "/models":
+        command_modals( )
     
 
 def command_exit() -> None:
@@ -71,3 +74,16 @@ def command_load():
     
 def command_modal():
     ...
+    
+def command_modals() -> None:
+    response = ollama.list()
+    
+    if not response.models:
+        console.print("[yellow]Nenhum modelo instalado.[/yellow]")
+        
+    for modelo in response.models:
+        if modelo.model == sys.argv[1]:
+            console.print(f"[bold green]*[/bold green][bold green1]{modelo.model}[/bold green1]")
+        else:
+            console.print(modelo.model, markup=False)
+        console.print(end="\n")

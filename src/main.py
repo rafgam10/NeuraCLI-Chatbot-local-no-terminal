@@ -38,7 +38,13 @@ def run_chat():
         
         
         inputs = session.prompt(console.print("[bold blue]›[/bold blue]Você ↓:")).strip()
-        func_commands(inputs)
+        if not inputs:
+            continue
+
+        if inputs.startswith("/"):
+            func_commands(inputs)
+            continue
+        
         ollama_inst.prompt = inputs
         
         for trecho in ollama_inst.response_prompt():

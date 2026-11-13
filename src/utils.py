@@ -56,3 +56,9 @@ def command_help() -> None:
 
 def command_new():
     ...
+    
+def command_load():
+    ...
+    
+def command_modal():
+    ...

@@ -1,3 +1,5 @@
+from collections.abc import Iterator
+
 from ollama import chat, ChatResponse
 
 
@@ -20,13 +22,26 @@ class Ollama:
 
         self._prompt = value
         
-    def response_prompt(self) -> str | None:
-        response:ChatResponse = chat(
+    def response_prompt(self) -> Iterator[str]:
+        prompt = self.prompt
+        if prompt is None:
+            raise ValueError("Defina o prompt antes de solicitar uma resposta")
+        
+        response = chat(
             model=self.model,
             messages=[
-                {"role": "user", "content": self.prompt},
+                {"role": "user", "content": prompt},
             ],
-            # stream=True
+            stream=True,
         )
-        self.history.append(response.message.content)
-        return response.message.content or ""
+        
+        partes: list[str] = []
+        
+        for chunk in response:
+            texto = chunk.message.content or ""
+
+            if texto:
+                partes.append(texto)
+                yield texto
+        
+        self.history.append("".join(partes))

@@ -40,4 +40,14 @@ def run_chat():
         inputs = session.prompt(console.print("[bold blue]›[/bold blue]Você ↓:")).strip()
         func_commands(inputs)
         ollama_inst.prompt = inputs
-        console.print(f"[bold green]{ollama_inst.response_prompt()}[/bold green]")
+        
+        for trecho in ollama_inst.response_prompt():
+            console.print(
+                trecho,
+                end="",
+                style="green",
+                markup=False,
+                highlight=False,
+            )
+            
+        console.print(end="\n\n")

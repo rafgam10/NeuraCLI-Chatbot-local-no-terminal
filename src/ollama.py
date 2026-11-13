@@ -33,6 +33,7 @@ class Ollama:
                 {"role": "user", "content": prompt},
             ],
             stream=True,
+            think=False,
         )
         
         partes: list[str] = []

@@ -83,7 +83,11 @@ def command_modals() -> None:
         
     for modelo in response.models:
         if modelo.model == sys.argv[1]:
-            console.print(f"[bold green]*[/bold green][bold green1]{modelo.model}[/bold green1]")
+            console.print(
+                f"[bold green]●[/bold green] "
+                f"[bold white]{modelo.model}[/bold white] "
+                f"[green](ativo)[/green]"
+            )
         else:
-            console.print(modelo.model, markup=False)
-        console.print(end="\n")
+            console.print(f"  [grey70]{modelo.model}[/grey70]")
+    console.print()

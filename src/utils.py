@@ -1,15 +1,24 @@
 import sys
 import os
 
-from prompt_toolkit.completion import WordCompleter
+from prompt_toolkit.application import get_app 
+from prompt_toolkit.completion import ConditionalCompleter, WordCompleter
+from prompt_toolkit.filters import Condition
 from rich.console import Console
 
 #Variaveis:
 console = Console()
-list_commands = WordCompleter(
-    ["/exit", "/load", "/help", "/models", "/model", "/clear", "/save", "/history",],
-    ignore_case=True,
-)
+list_commands = ConditionalCompleter(
+    WordCompleter(
+        ["/exit", "/load", "/help", "/models", "/model", "/clear", "/save", "/history",],
+        ignore_case=True,
+        sentence=True
+    ),
+    filter=Condition(
+        lambda: get_app()
+        .current_buffer.document.text_before_cursor.startswith("/")
+    ),
+) 
 
 
 #Métodos:

@@ -9,7 +9,7 @@ from src.utils import func_commands
 
 # Instancias:
 console = Console()
-session:PromptSession[str] = PromptSession(completer=list_commands)
+session:PromptSession[str] = PromptSession(completer=list_commands, complete_while_typing=True)
 
 if len(sys.argv) < 2:
     sys.exit("Uso: python run.py <modelo>")

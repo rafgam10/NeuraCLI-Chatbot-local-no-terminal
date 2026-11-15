@@ -1,7 +1,5 @@
 # NeuraCLI
 
-### Inteligência artificial local, direto no terminal.
-
 ![Versão](https://img.shields.io/badge/vers%C3%A3o-0.1.0-blue)
 ![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
 [![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-green)](LICENSE)

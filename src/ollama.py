@@ -1,12 +1,23 @@
 from collections.abc import Iterator
+from typing import Dict, List, TypedDict
+from datetime import datetime
+import uuid
 
 from ollama import chat, ChatResponse
+
+
+class HistoryEntry(TypedDict):
+    ID: str
+    created_at: str
+    prompt: str
+    response_prompt: str
 
 
 class Ollama:
     
     def __init__(self, model:str):
-        self.history:list = []
+        self.history: List[str] = []
+        self.history_prompt: List[HistoryEntry] = []
         self.model = model
         self._prompt: str | None = None
 
@@ -45,4 +56,19 @@ class Ollama:
                 partes.append(texto)
                 yield texto
         
-        self.history.append("".join(partes))
+        response_text = "".join(partes)
+        self.history.append(response_text)
+        self.command_history_inst(prompt, response_text)
+
+    def command_history_inst(self, prompt: str, response_prompt: str) -> None:
+        self.history_prompt.append(
+            {
+                "ID": str(uuid.uuid4()),
+                "created_at": datetime.now().isoformat(timespec="seconds"),
+                "prompt": prompt,
+                "response_prompt": response_prompt,
+            }
+        )
+
+    def list_history(self) -> List[HistoryEntry]:
+        return self.history_prompt.copy()
